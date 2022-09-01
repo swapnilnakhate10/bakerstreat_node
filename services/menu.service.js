@@ -32,7 +32,7 @@ async function addCategory(categoryData, callback) {
     let category = await categoryDao.insertOne(categoryData);
     if(category) {
         logger.debug("category created successfully for ",category);
-        callback(null, { message : "Category added successfully" });
+        callback(null, { message : "Category added successfully", data : category });
     } else {
         logger.error("Failed to create category : "+category);
         callback({ message : "Failed to create Category." }, null);
@@ -45,14 +45,14 @@ async function updateCategory(categoryId, categoryData, callback) {
     let category = await categoryDao.findOneAndUpdate(findQuery, updateData);
     if(category) {
         logger.debug("category updated successfully for ",category);
-        callback(null, { message : "Category updated successfully" });
+        callback(null, { message : "Category updated successfully", data : category });
     } else {
         logger.error("Failed to update category : "+category);
         callback({ message : "Failed to update Category." }, null);
     }
 }
 
-async function removeCategory(menuId, callback) {
+async function removeCategory(categoryId, callback) {
     let findQuery = { _id : categoryId, active: true };
     let categoryData = await categoryDao.remove(findQuery);
     if(categoryData) {
@@ -79,7 +79,7 @@ async function addMenu(menuData, callback) {
     let menu = await menusDao.insertOne(menuData);
     if(menu) {
         logger.debug("menu created successfully for "+menu);
-        callback(null, { message : "Menu added successfully" });
+        callback(null, { message : "Menu added successfully", data : menu });
     } else {
         logger.error("Failed to create menu : ",menu);
         callback({ message : "Failed to create menu." }, null);
@@ -92,7 +92,7 @@ async function updateMenu(menuId, menuData, callback) {
     let menu = await menusDao.findOneAndUpdate(findQuery, updateData);
     if(menu) {
         logger.debug("menu updated successfully for "+menu);
-        callback(null, { message : "Menu updated successfully" });
+        callback(null, { message : "Menu updated successfully", data : menu });
     } else {
         logger.error("Failed to update menu : "+menu);
         callback({ message : "Failed to update menu." }, null);
