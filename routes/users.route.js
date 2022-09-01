@@ -20,7 +20,7 @@ let jwtCheck = jwt({
     algorithms: [ 'HS256' ]
   });
 
-// router.post('/', usersInterceptor.createUser, usersController.createUser);
+router.post('/', usersInterceptor.createUser, usersController.createUser);
 
 router.post('/login', usersInterceptor.loginUser, usersController.loginUser);
 

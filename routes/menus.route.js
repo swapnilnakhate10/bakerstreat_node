@@ -6,8 +6,21 @@ let menusController = require('../controllers/menus.controller');
 
 logger.debug("Menu Routes Initiated");
 
-router.get('/', menusController.getAllCategories);
+router.get('/category', menusController.getAllCategories);
+
+router.post('/category', menusController.addCategory);
+
+router.put('/category/:categoryId', menusController.updateCategory);
+
+router.delete('/category/:categoryId', menusController.removeCategory);
+
 
 router.get('/:categoryId', menusController.getAllMenusByCategory);
+
+router.post('/', menusController.addMenu);
+
+router.put('/:menuId', menusController.updateMenu);
+
+router.delete('/:menuId', menusController.removeMenu);
 
 module.exports = router;

@@ -10,7 +10,11 @@ module.exports = {
     getAllCategories : getAllCategories,
     getAllMenusByCategory : getAllMenusByCategory,
     addCategory : addCategory,
-    updateCategory : updateCategory
+    updateCategory : updateCategory,
+    removeCategory : removeCategory,
+    addMenu : addMenu,
+    updateMenu : updateMenu,
+    removeMenu : removeMenu
 };
 
 async function getAllCategories(callback) {
@@ -21,17 +25,6 @@ async function getAllCategories(callback) {
     } else {
         logger.error("Failed to fetch category : "+categories);
         callback({ message : "Failed to fetch Category list." }, null);
-    }
-}
-
-async function getAllMenusByCategory(categoryId, callback) {
-    let menus = await menusDao.find({ categoryId : categoryId, active : true });
-    if(menus) {
-        logger.debug("menus fetched successfully for ");
-        callback(null, { data : menus });
-    } else {
-        logger.error("Failed to fetch menus : "+menus);
-        callback({ message : "Failed to fetch menus list." }, null);
     }
 }
 
@@ -56,5 +49,64 @@ async function updateCategory(categoryId, categoryData, callback) {
     } else {
         logger.error("Failed to update category : "+category);
         callback({ message : "Failed to update Category." }, null);
+    }
+}
+
+async function removeCategory(menuId, callback) {
+    let findQuery = { _id : categoryId, active: true };
+    let categoryData = await categoryDao.remove(findQuery);
+    if(categoryData) {
+        logger.debug("category removed successfully for ",categoryData);
+        callback(null, { message : "Category removed successfully" });
+    } else {
+        logger.error("Failed to remove category : "+categoryData);
+        callback({ message : "Failed to remove category." }, null);
+    }
+}
+
+async function getAllMenusByCategory(categoryId, callback) {
+    let menus = await menusDao.find({ categoryId : categoryId, active : true });
+    if(menus) {
+        logger.debug("menus fetched successfully for ");
+        callback(null, { data : menus });
+    } else {
+        logger.error("Failed to fetch menus : "+menus);
+        callback({ message : "Failed to fetch menus list." }, null);
+    }
+}
+
+async function addMenu(menuData, callback) {
+    let menu = await menusDao.insertOne(menuData);
+    if(menu) {
+        logger.debug("menu created successfully for "+menu);
+        callback(null, { message : "Menu added successfully" });
+    } else {
+        logger.error("Failed to create menu : ",menu);
+        callback({ message : "Failed to create menu." }, null);
+    }
+}
+
+async function updateMenu(menuId, menuData, callback) {
+    let findQuery = { _id : menuId, active: true };
+    let updateData = { $set : menuData };
+    let menu = await menusDao.findOneAndUpdate(findQuery, updateData);
+    if(menu) {
+        logger.debug("menu updated successfully for "+menu);
+        callback(null, { message : "Menu updated successfully" });
+    } else {
+        logger.error("Failed to update menu : "+menu);
+        callback({ message : "Failed to update menu." }, null);
+    }
+}
+
+async function removeMenu(menuId, callback) {
+    let findQuery = { _id : menuId, active: true };
+    let menu = await menusDao.remove(findQuery);
+    if(menu) {
+        logger.debug("menu removed successfully for ",menu);
+        callback(null, { message : "Menu removed successfully" });
+    } else {
+        logger.error("Failed to remove menu : "+menu);
+        callback({ message : "Failed to remove menu." }, null);
     }
 }

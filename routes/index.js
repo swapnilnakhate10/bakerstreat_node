@@ -5,7 +5,7 @@ const ordersRoutes = require('./order.route');
 
 const router = express.Router();
 
-router.get('/', (req, res) => res.send('Welcome to My App !!'));
+router.get('/', (req, res) => res.send("Welcome to Baker's Treat !!"));
 
 router.use('/v1/users', usersRoutes);
 

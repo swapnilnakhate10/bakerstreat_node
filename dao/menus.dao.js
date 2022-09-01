@@ -9,7 +9,8 @@ module.exports = {
     find : find,
     findOneAndUpdate : findOneAndUpdate,
     aggregate : aggregate,
-    findWithPopulate : findWithPopulate
+    findWithPopulate : findWithPopulate,
+    remove : remove
 };
 
 async function insertOne(menuDetails) {
@@ -28,7 +29,7 @@ async function findOne(query) {
 }
 
 async function findOneAndUpdate(query, updateData) {
-    let options = { new : true };
+    let options = { new : true, useFindAndModify: false };
     let menuDetails = await MenuModel.findOneAndUpdate(query, updateData, options).catch((err) => {
         return err;
     });
@@ -54,4 +55,11 @@ async function aggregate(pipeline) {
         return err;
     });
     return menuList;
+}
+
+async function remove(query) {
+    let menuDetails = await MenuModel.remove(query).catch((err) => {
+        return err;
+    });
+    return menuDetails;
 }
