@@ -11,6 +11,10 @@ const menuSchema = new Schema({
         required : true,
         default : 10
     },
+    quantity : {
+        type : Number,
+        default : 1
+    },
     description : {
         type : String
     },
